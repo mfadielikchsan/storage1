@@ -19,6 +19,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "instascan": "^1.0.0"
+        "instascan": "^1.0.0",
+        "sweetalert2": "^11.10.1"
     }
 }
