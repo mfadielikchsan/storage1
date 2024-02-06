@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Scan In Finish Good</h1>
+    <h1 class="h3 mb-4 text-gray-800">Scan Out Delivery Finish Good</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -28,13 +28,22 @@
                 <option value="2">EXP</option>
             </select>
         </div>
+        <div class="form-group col-md-3">
+            <label for="gate">Gate</label>
+            <select name="gate" id="gate" class="form-control select2" style="width: 100%" required>
+                <option value=""></option>
+                @foreach ($gate as $g)
+                    <option value="{{ $g->id }}" gatename="{{ $g->name }}">{{ $g->name }}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group col-md-2">
             <label for="nosj">No Surat Jalan</label>
             <input type="text" class="form-control" id="nosj">
         </div>
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-5">
             <button type="button" style="margin-top:30px;" onclick="scanQrCode()" class="btn btn-success">Scan QR <i class="fa fa-qrcode" aria-hidden="true"></i></button>
-            <a href="{{ route('stock-fg.indexin') }}"><button type="button" style="margin-top:30px;" class="btn btn-danger fa-pull-right">Back</button></a>
+            <a href="{{ route('stock-fg.indexoutdeliv') }}"><button type="button" style="margin-top:30px;" class="btn btn-danger fa-pull-right">Back</button></a>
         </div>
     </div>
 
@@ -66,18 +75,18 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Scan In Finish Good</h4>
+                    <h4 class="modal-title">Scan Out Non Delivery Finish Good</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <form method="post" id="form_id" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <input type="hidden" name="part_id" id="part_id">
+                        <input type="hidden" name="primarykey" id="primarykey">
                         <div class="form-group">
-                            <label for="keteranganlabel">Keterangan</label>
-                            <input type="hidden" name="keterangan" id="keterangan">
-                            <input type="text" class="form-control"id="keteranganlabel" readonly required>
+                            <label for="gatelabel">Gate</label>
+                            <input type="hidden" name="gateout" id="gateout">
+                            <input type="text" class="form-control"id="gatelabel" readonly required>
                         </div> 
                         <div class="form-group">
                             <label for="nosuratjalan">No Surat Jalan</label>
@@ -98,10 +107,6 @@
                         <div class="form-group">
                             <label for="nomorlot">Nomor LOT</label>
                             <input type="text" class="form-control" name="nomorlot" id="nomorlot" readonly required>
-                        </div>  
-                        <div class="form-group">
-                            <label for="jumlah">Jumah Scan</label>
-                            <input type="number" class="form-control" name="jumlah" id="jumlah" autocomplete="off" required>
                         </div>                       
                     </div>
                     <!-- Modal footer -->
@@ -113,7 +118,6 @@
             </div>
         </div>
     </div>
-
 
 @endsection
 
@@ -133,7 +137,10 @@
     function scanQrCode() {
         let ket = $("#ket").val();
         let nosj = $("#nosj").val();
-        if(nosj != '') {
+        let gate = $("#gate").val();
+        let gatelabel = $("#gate").find(':selected').attr('gatename');
+
+        if(gate != '' && nosj != '') {
             scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
             scanner.addListener('scan', function (content) {
                 $('#qrModal').modal('hide');
@@ -142,44 +149,43 @@
                 if ((content.match(/\|/g) || []).length === 3) {
                     let kode = content.split('|');
                     let nopart = kode[0];
+                    let qty = parseInt(kode[2]);
+                    let nolot = kode[3];
 
                     $('#loading').show();
-                    let url = '{{ route('stock-fg.getpart', ['param1']) }}';
-                    url = url.replace('param1', nopart);
                     $.ajax({
-                        url: url,
-                        type: "GET",
+                        url: '{{ route('stock-fg.getpartOut') }}',
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': csrf_token
+                        },
+                        data: {
+                            nopart: nopart,
+                            nolot: nolot,
+                            qty: qty,
+                            ket: ket,
+                        },
                         success: function(response) {
                             $('#loading').hide();
                             if(response.data) {
                                 console.log(response.data)
-                                let qty = parseInt(kode[2]);
-                                let nolot = kode[3];
-                                let ketlabel = '';
-                                if(ket == 1) {
-                                    ketlabel =  'REG'
-                                }else if(ket == 2) {
-                                    ketlabel =  'EXP'
-                                }
-
-                                $("#part_id").val(response.data.id) 
-                                $("#keterangan").val(ket) 
-                                $("#keteranganlabel").val(ketlabel) 
+                                $("#primarykey").val(response.data.id) 
+                                $("#gateout").val(gate) 
+                                $("#gatelabel").val(gatelabel) 
                                 $("#nosuratjalan").val(nosj) 
                                 $("#partno").val(nopart) 
-                                $("#partname").val(response.data.part_name) 
+                                $("#partname").val(response.data.part.part_name) 
                                 $("#qty").val(qty) 
                                 $("#nomorlot").val(nolot) 
                                 $('#modalTambah').modal('show');
-                            }else{
-                                Swal.fire('Warning', 'Part Number Tidak Ditemukan', 'warning')
+                            } else {
+                                Swal.fire('Warning', 'Part Number Tidak Ada Pada Stock', 'warning')
                             }
                         }
                     });
                 }else{
                     Swal.fire('Warning', 'QR Code Tidak Valid', 'warning')
                 }
-
             });
     
             Instascan.Camera.getCameras().then(function (cameras) {
@@ -199,7 +205,11 @@
                 }
             });
         }else{
-            Swal.fire('Warning', 'Pilih No Surat Jalan Terlebih Dahulu', 'warning')
+            Swal.fire({
+                title: 'Warning',
+                text: 'Gate dan No Surat Jalan Tidak Boleh Kosong',
+                icon: 'warning'
+            })
         }
     }
 
@@ -217,7 +227,7 @@
                 let formData = new FormData(form);
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('stock-fg.storeScanin') }}",
+                    url: "{{ route('stock-fg.storeScanoutDeliv') }}",
                     data: formData,
                     contentType: false,
                     processData: false,

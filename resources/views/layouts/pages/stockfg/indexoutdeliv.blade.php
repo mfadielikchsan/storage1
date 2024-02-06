@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Stock Finish Good</h1>
+    <h1 class="h3 mb-4 text-gray-800">Out Delivery Stock Finish Good</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -22,10 +22,7 @@
     <!-- Main Content goes here -->
     <div class="row">
         <div class="col-md-2">
-            <a href="{{ route('stock-fg.scanin') }}"><button type="button" class="btn btn-success" style="width: 90%"><i class="fa fa-plus-circle"></i> Scan In</button></a>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('stock-fg.scanout') }}"><button type="button" class="btn btn-danger" style="width: 90%"> <i class="fa fa-arrow-circle-right"></i> Scan Out</button></a>
+            <a href="{{ route('stock-fg.scanoutdeliv') }}"><button type="button" class="btn btn-danger" style="width: 90%"> <i class="fa fa-arrow-circle-right"></i> Scan Out</button></a>
         </div>
     </div>
     <div class="col-md-12 row mt-3">
@@ -46,21 +43,10 @@
                 <option value="2">EXP</option>
             </select>   
         </div>
-        <div class="col-md-3">
-            <label for="statusout">Status Out</label>
-            <select class="form-control select2" id="statusout" style="width:100%">
-                <option value="ALL" selected>ALL</option>
-                <option value="NULL">NULL</option>
-                @foreach ($statusout as $s)
-                    <option value="{{ $s->id }}">{{ $s->name }}</option>
-                @endforeach
-            </select>   
-        </div>
         <div class="col-md-2">
             <label for="gate">Gate</label>
             <select class="form-control select2" id="gate" style="width:100%">
                 <option value="ALL" selected>ALL</option>
-                <option value="NULL">NULL</option>
                 @foreach ($gate as $g)
                     <option value="{{ $g->id }}">{{ $g->name }}</option>
                 @endforeach
@@ -77,9 +63,8 @@
                     <th class="text-center">Lot Number</th>
                     <th class="text-center">Quantity</th>
                     <th class="text-center">Keterangan</th>
-                    <th class="text-center">Status Out</th>
-                    <th class="text-center">Date Out</th>
                     <th class="text-center">Gate</th>
+                    <th class="text-center">Date Out</th>
                 </tr>
             </thead>
         </table>   
@@ -93,7 +78,6 @@
     .on('preXhr.dt', function(e, settings, data) {
         data.part = $('#part').val()
         data.ket = $('#ket').val()
-        data.statusout = $('#statusout').val()
         data.gate = $('#gate').val()
     }).DataTable({
         ajax: {
@@ -125,8 +109,8 @@
             name: 'part_name',
         }, 
         {
-            data: 'no_sj', 
-            name: 'no_sj',
+            data: 'no_sj_out', 
+            name: 'no_sj_out',
         }, 
         {
             data: 'lot_number', 
@@ -135,25 +119,25 @@
         {
             data: 'quantity', 
             name: 'quantity',
+            class: 'dt-center',
         }, 
         {
             data: 'ket_in', 
             name: 'ket_in',
-        }, 
-        {
-            data: 'status_out_id', 
-            name: 'status_out_id',
-        }, 
-        {
-            data: 'date_out', 
-            name: 'date_out',
+            class: 'dt-center',
         }, 
         {
             data: 'gate_id', 
             name: 'gate_id',
+            class: 'dt-center',
+        },
+        {
+            data: 'date_out', 
+            name: 'date_out',
+            class: 'dt-center',
         }],
         "initComplete": function() {
-            $('#part, #ket, #statusout, #gate').change(function() {
+            $('#part, #ket, #gate').change(function() {
                 tableMaster.ajax.url("{!! url()->current() !!}").load();
             });
         }

@@ -101,6 +101,10 @@
         }]
     });
 
+    setInterval(function () {
+        tableMaster.ajax.reload();
+    }, 1000);
+
     function tambahData() {
         $("#judulmodal").text("Add");
         $('#primarykey').val('');

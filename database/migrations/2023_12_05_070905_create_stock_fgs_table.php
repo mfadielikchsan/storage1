@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('part_id');
             $table->string('no_sj');
             $table->string('part_number');
-            $table->string('customer_kode');
             $table->string('lot_number');
             $table->integer('quantity');
             $table->string('ket_in', 3);
+            $table->string('no_sj_out')->nullable();
             $table->foreignId('status_out_id')->nullable();
             $table->date('date_out')->nullable();
             $table->foreignId('gate_id')->nullable();

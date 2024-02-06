@@ -9,7 +9,7 @@ class StockFg extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $with = ['part', 'gate', 'statusout'];
+    protected $with = ['part', 'gate', 'StatusOut'];
 
     public function part()
     {
@@ -21,7 +21,7 @@ class StockFg extends Model
         return $this->belongsTo(Gate::class);
     }
 
-    public function statusout()
+    public function StatusOut()
     {
         return $this->belongsTo(StatusOut::class);
     }

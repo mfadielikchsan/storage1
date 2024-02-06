@@ -78,34 +78,42 @@
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
 
-            <li class="nav-item {{ Nav::isRoute('part.index') }}">
-                <a class="nav-link" href="{{ route('part.index') }}">
-                    <i class="fa fa-archive" aria-hidden="true"></i>
-                    <span>{{ __('Master Part') }}</span></a>
+            <li class="nav-item {{ Nav::isRoute('part.index') }} {{ Nav::isRoute('customer.index') }} {{ Nav::isRoute('gate.index') }} {{ Nav::isRoute('statusout.index') }}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Master</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('part.index') }}"><i class="fa fa-archive" aria-hidden="true"></i> Master Part</a>
+                        <a class="collapse-item" href="{{ route('customer.index') }}"><i class="fa fa-users" aria-hidden="true"></i> Master Customer</a>
+                        <a class="collapse-item" href="{{ route('gate.index') }}"><i class="fa fa-road" aria-hidden="true"></i> Master Gate</a>
+                        <a class="collapse-item" href="{{ route('statusout.index') }}"><i class="fa fa-info" aria-hidden="true"></i> Master Status Out</a>
+                    </div>
+                </div>
             </li>
 
-            <li class="nav-item {{ Nav::isRoute('customer.index') }}">
-                <a class="nav-link" href="{{ route('customer.index') }}">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    <span>{{ __('Master Customer') }}</span></a>
+            <li class="nav-item {{ Nav::isRoute('stock-fg.indexin') }}">
+                <a class="nav-link" href="{{ route('stock-fg.indexin') }}">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>{{ __('In Finish Good') }}</span></a>
+            </li>
+            <li class="nav-item {{ Nav::isRoute('stock-fg.indexoutnon') }}">
+                <a class="nav-link" href="{{ route('stock-fg.indexoutnon') }}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>{{ __('Out Non Delivery') }}</span></a>
+            </li>
+            <li class="nav-item {{ Nav::isRoute('stock-fg.indexoutdeliv') }}">
+                <a class="nav-link" href="{{ route('stock-fg.indexoutdeliv') }}">
+                    <i class="fa fa-truck"></i>
+                    <span>{{ __('Out Delivery') }}</span></a>
             </li>
 
-            <li class="nav-item {{ Nav::isRoute('gate.index') }}">
-                <a class="nav-link" href="{{ route('gate.index') }}">
-                    <i class="fa fa-road" aria-hidden="true"></i>
-                    <span>{{ __('Master Gate') }}</span></a>
-            </li>
-
-            <li class="nav-item {{ Nav::isRoute('statusout.index') }}">
-                <a class="nav-link" href="{{ route('statusout.index') }}">
-                    <i class="fa fa-info" aria-hidden="true"></i>
-                    <span>{{ __('Master Status Out') }}</span></a>
-            </li>
-
-            <li class="nav-item {{ Nav::isRoute('stock-fg.index') }}">
-                <a class="nav-link" href="{{ route('stock-fg.index') }}">
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>{{ __('Stock Finish Good') }}</span></a>
+            <li class="nav-item {{ Nav::isRoute('stock-fg.recapt') }}">
+                <a class="nav-link" href="{{ route('stock-fg.recapt') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>{{ __('Recapt Finish Good') }}</span></a>
             </li>
 
 
@@ -278,6 +286,7 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.7.0/js/dataTables.colReorder.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

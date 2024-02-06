@@ -48,9 +48,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('gate', GateController::class);
     Route::resource('statusout', StatusOutController::class);
     Route::prefix('stock-fg')->name('stock-fg.')->group(function () {
-        Route::get('index', [StockFgController::class, 'index'])->name('index');
+        Route::get('indexin', [StockFgController::class, 'indexin'])->name('indexin');
+        Route::get('indexoutnon', [StockFgController::class, 'indexoutnon'])->name('indexoutnon');
+        Route::get('indexoutdeliv', [StockFgController::class, 'indexoutdeliv'])->name('indexoutdeliv');
         Route::get('scanin', [StockFgController::class, 'scanin'])->name('scanin');
-        Route::get('scanout', [StockFgController::class, 'scanout'])->name('scanout');
+        Route::get('scanoutnon', [StockFgController::class, 'scanoutnon'])->name('scanoutnon');
+        Route::get('scanoutdeliv', [StockFgController::class, 'scanoutdeliv'])->name('scanoutdeliv');
+        Route::get('recapt', [StockFgController::class, 'recapt'])->name('recapt');
+        Route::get('getpart/{nopart}', [StockFgController::class, 'getpart'])->name('getpart');
+        Route::post('getpartOut', [StockFgController::class, 'getpartOut'])->name('getpartOut');
+        Route::post('storeScanin', [StockFgController::class, 'storeScanin'])->name('storeScanin');
+        Route::post('storeScanoutNon', [StockFgController::class, 'storeScanoutNon'])->name('storeScanoutNon');
+        Route::post('storeScanoutDeliv', [StockFgController::class, 'storeScanoutDeliv'])->name('storeScanoutDeliv');
     });
 
     Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
