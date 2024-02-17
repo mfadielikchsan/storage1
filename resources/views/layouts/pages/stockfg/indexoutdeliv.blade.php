@@ -39,8 +39,9 @@
             <label for="ket">Keterangan</label>
             <select class="form-control select2" id="ket" style="width:100%">
                 <option value="ALL" selected>ALL</option>
-                <option value="1">REG</option>
-                <option value="2">EXP</option>
+                <option value="1">REG AHM</option>
+                <option value="2">EXP AHM</option>
+                <option value="3">NON AHM</option>
             </select>   
         </div>
         <div class="col-md-2">

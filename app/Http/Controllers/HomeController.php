@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Part;
 use App\User;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -26,10 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::count();
+        $part = Part::count();
 
         $widget = [
             'users' => $users,
-            //...
+            'part' => $part,
         ];
 
         return view('home', compact('widget'));

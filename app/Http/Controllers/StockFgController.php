@@ -51,9 +51,11 @@ class StockFgController extends Controller
             })
             ->editColumn('ket_in', function ($d) {
                 if($d->ket_in == '1') {
-                    return 'REG';
+                    return 'REG AHM';
+                }else if($d->ket_in == '2') {
+                    return 'EXP AHM';
                 }else{
-                    return 'EXP';
+                    return 'NON AHM';
                 }
             })
             ->make();
@@ -105,9 +107,11 @@ class StockFgController extends Controller
             })
             ->editColumn('ket_in', function ($d) {
                 if($d->ket_in == '1') {
-                    return 'REG';
+                    return 'REG AHM';
+                }else if($d->ket_in == '2') {
+                    return 'EXP AHM';
                 }else{
-                    return 'EXP';
+                    return 'NON AHM';
                 }
             })
             ->editColumn('status_out_id', function ($d) {
@@ -166,9 +170,11 @@ class StockFgController extends Controller
             })
             ->editColumn('ket_in', function ($d) {
                 if($d->ket_in == '1') {
-                    return 'REG';
+                    return 'REG AHM';
+                }else if($d->ket_in == '2') {
+                    return 'EXP AHM';
                 }else{
-                    return 'EXP';
+                    return 'NON AHM';
                 }
             })
             ->editColumn('date_out', function ($d) {

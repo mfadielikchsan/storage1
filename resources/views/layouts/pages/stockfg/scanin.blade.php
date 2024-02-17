@@ -24,8 +24,9 @@
         <div class="form-group col-md-2">
             <label for="ket">Keterangan</label>
             <select name="ket" id="ket" class="form-control select2" style="width: 100%" required>
-                <option value="1">REG</option>
-                <option value="2">EXP</option>
+                <option value="1">REG AHM</option>
+                <option value="2">EXP AHM</option>
+                <option value="3">NON AHM</option>
             </select>
         </div>
         <div class="form-group col-md-2">
