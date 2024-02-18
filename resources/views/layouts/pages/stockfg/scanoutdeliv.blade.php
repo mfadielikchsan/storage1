@@ -191,7 +191,17 @@
     
             Instascan.Camera.getCameras().then(function (cameras) {
                 if (cameras.length > 0) {
-                    scanner.start(cameras[0]); // Gunakan kamera pertama yang ditemukan
+                    let selectedCamera = null;
+
+                    // Temukan kamera belakang jika ada
+                    const rearCamera = cameras.find(camera => camera.name.toLowerCase().includes('back') || camera.name.toLowerCase().includes('belakang'));
+                    if (rearCamera) {
+                        selectedCamera = rearCamera; // Gunakan kamera belakang jika ditemukan
+                    } else {
+                        selectedCamera = cameras[0]; // Gunakan kamera pertama yang ditemukan
+                    }
+
+                    scanner.start(selectedCamera);
                 } else {
                     console.error('Tidak ada kamera yang ditemukan.');
                 }
